@@ -91,19 +91,32 @@ const Card: React.FC<CardProps> = ({
   authorName,
   authorAvatarUrl,
 }) => {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [rotation, setRotation] = useState({ x: 0, y: 0 });
 
-  const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
-    const { left, top, width, height } =
-      event.currentTarget.getBoundingClientRect();
-    const x = ((event.clientX - left) / width - 0.5) * 40;
-    const y = ((event.clientY - top) / height - 0.5) * -40;
-    setMousePosition({ x, y });
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const card = e.currentTarget;
+    const centerX = card.clientWidth / 2;
+    const centerY = card.clientHeight / 2;
+    const mouseX = e.pageX - card.offsetLeft - centerX;
+    const mouseY = e.pageY - card.offsetTop - centerY;
+    const maxRotation = 10;
+    const rotationX = (maxRotation * mouseY) / centerY;
+    const rotationY = (-maxRotation * mouseX) / centerX;
+    setRotation({ x: rotationX, y: rotationY });
   };
-  console.log(mousePosition);
-  console.log(`hello! {props}`);
+
+  const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+    setRotation({ x: 0, y: 0 });
+  };
+
   return (
-    <CardContainer>
+    <CardContainer
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        transform: `perspective(1000px) rotateX(${rotation.x}deg) rotateY(${rotation.y}deg) translateZ(50px)`,
+      }}
+    >
       <CardLogo src="your-logo.png" />
       <CardImage src={imageUrl} alt={title} />
       <CardTitle>{title}</CardTitle>
