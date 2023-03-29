@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-interface CardProps {
+export interface CardProps {
   imageUrl: string;
   title: string;
   subtitle: string;
   text: string;
   authorName: string;
   authorAvatarUrl: string;
-  logoUrl: string;
+  logoUrl?: string;
 }
 
 const CardContainer = styled.div`
@@ -89,6 +89,7 @@ const Card: React.FC<CardProps> = ({
   subtitle,
   text,
   authorName,
+  logoUrl,
   authorAvatarUrl,
 }) => {
   const [rotation, setRotation] = useState({ x: 0, y: 0 });
@@ -117,7 +118,6 @@ const Card: React.FC<CardProps> = ({
         transform: `perspective(1000px) rotateX(${rotation.x}deg) rotateY(${rotation.y}deg) translateZ(50px)`,
       }}
     >
-      <CardLogo src="your-logo.png" />
       <CardImage src={imageUrl} alt={title} />
       <CardTitle>{title}</CardTitle>
       <CardDivider />
