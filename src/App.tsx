@@ -1,27 +1,46 @@
-import React from "react";
+import React, { useState , useEffect} from "react";
+import CardGrid from "./components/CardGrid";
 import Card from "./components/Card";
-import styled from "styled-components";
+import Navigation from "./components/Navigation";
+import Contact from "./pages/Contact";
+import About from "./pages/About";
+import { Routes, Route } from "react-router-dom";
 
-const AppContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-`;
+const cards = [
+  {
+    imageUrl: "https://via.placeholder.com/200x100",
+    title: "Card 1",
+    subtitle: "Subtitle for Card 1",
+    text: "Text for Card 1",
+    authorName: "Author 1",
+    authorAvatarUrl: "https://via.placeholder.com/50",
+    logo: "https://via.placeholder.com/30",
+  },
+  {
+    imageUrl: "https://via.placeholder.com/200x100",
+    title: "Card 2",
+    subtitle: "Subtitle for Card 2",
+    text: "Text for Card 2",
+    authorName: "Author 2",
+    authorAvatarUrl: "https://via.placeholder.com/50",
+    logo: "https://via.placeholder.com/30",
+  },
+  // add more cards as needed
+];
 
-const App = () => {
+const App: React.FC = () => {
   return (
-    <AppContainer>
-      <Card
-        imageUrl="https://via.placeholder.com/400x200"
-        title="Card Title"
-        subtitle="Card Subtitle"
-        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor, ipsum in hendrerit vehicula, ipsum nisi mattis lorem, eu pellentesque turpis elit eget metus."
-        authorAvatarUrl="https://via.placeholder.com/40x40"
-        authorName="John Doe"
-        logoUrl="https://via.placeholder.com/40x40"
-      />
-    </AppContainer>
+    <div className="App">
+      <Navigation></Navigation>
+      <Routes>
+        <Route path="/">
+           <Card {...cards[0]} />
+        </Route>
+        <Route path="/about" element={<About/>}/>
+        <Route path="/contact" element={<Contact/>}/>
+      </Routes>
+      {/* <CardGrid cards={cards.concat(cards)} /> */}
+    </div>
   );
 };
 
